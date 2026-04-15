@@ -1,0 +1,5 @@
+test:
+  _target_: src.datasets.CustomDirAudioDataset
+  audio_dir: ???  # pass via CLI: datasets.test.audio_dir=/path/to/audio
+  transcription_dir: null
+  instance_transforms: ${transforms.instance_transforms.inference}

@@ -1,0 +1,15 @@
+defaults:
+  - model: las
+  - metrics: example
+  - datasets: example_eval
+  - dataloader: example
+  - transforms: example_only_instance
+  - _self_
+text_encoder:
+  _target_: src.text_encoder.CTCTextEncoder
+inferencer:
+  device_tensors: ["spectrogram"]
+  device: auto
+  save_path: "inference_output"
+  seed: 1
+  from_pretrained: "saved/model_best.pth"

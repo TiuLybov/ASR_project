@@ -1,0 +1,37 @@
+defaults:
+  - model: las
+  - writer: wandb
+  - metrics: example
+  - datasets: onebatchtest
+  - dataloader: example
+  - transforms: example_only_instance
+  - _self_
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 1e-3
+lr_scheduler:
+  _target_: torch.optim.lr_scheduler.OneCycleLR
+  max_lr: 1e-2
+  pct_start: 0.1
+  steps_per_epoch: ${trainer.epoch_len}
+  epochs: ${trainer.n_epochs}
+  anneal_strategy: cos
+loss_function:
+  _target_: src.loss.LASLoss
+  pad_id: 0
+text_encoder:
+  _target_: src.text_encoder.CTCTextEncoder
+trainer:
+  log_step: 5
+  n_epochs: 100
+  epoch_len: 10
+  device_tensors: ["spectrogram", "text_encoded"]
+  resume_from: null
+  device: auto
+  override: True
+  monitor: "off"
+  save_period: 50
+  early_stop: 100
+  save_dir: "saved"
+  seed: 1
+  max_grad_norm: 10
