@@ -37,8 +37,8 @@ class CommonVoiceDataset(BaseDataset):
                 ).exists(), f"Path {entry['path']} doesn't exist"
                 entry["path"] = str(Path(entry["path"]).absolute().resolve())
                 entry["text"] = self._regex.sub("", entry.get("sentence", "").lower())
-                t_info = torchaudio.info(entry["path"])
-                entry["audio_len"] = t_info.num_frames / t_info.sample_rate
+                t_info = torchaudio.load(entry["path"])
+                entry["audio_len"] = t_info[0].shape[1] / t_info[1]
                 index.append(
                     {
                         "path": entry["path"],
