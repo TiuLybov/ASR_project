@@ -12,8 +12,8 @@ class CustomDirAudioDataset(BaseDataset):
             if path.suffix not in [".mp3", ".wav", ".flac", ".m4a"]:
                 continue
             entry = {"path": str(path)}
-            t_info = torchaudio.info(str(path))
-            entry["audio_len"] = t_info.num_frames / t_info.sample_rate
+            waveform, sr = torchaudio.load(str(path))
+            entry["audio_len"] = waveform.shape[1] / sr
 
             if transcription_dir and Path(transcription_dir).exists():
                 transc_path = Path(transcription_dir) / (path.stem + ".txt")

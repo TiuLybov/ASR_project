@@ -6,6 +6,11 @@ import torch
 import torchaudio
 from torch.utils.data import Dataset
 
+try:
+    torchaudio.set_audio_backend("soundfile")
+except Exception:
+    pass
+
 from src.text_encoder import CTCTextEncoder
 
 logger = logging.getLogger(__name__)
