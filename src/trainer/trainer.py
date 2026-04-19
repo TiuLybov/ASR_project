@@ -53,7 +53,10 @@ class Trainer(BaseTrainer):
     def log_spectrogram(self, spectrogram, **batch):
         spectrogram_for_plot = spectrogram[0].detach().cpu()
         image = plot_spectrogram(spectrogram_for_plot)
-        self.writer.add_image("spectrogram", image)
+        # (C, H, W) -> PIL Image
+        from torchvision.transforms import ToPILImage
+        pil_image = ToPILImage()(image)
+        self.writer.add_image("spectrogram", pil_image)
 
     def log_predictions(
         self, text, log_probs, audio_path, examples_to_log=10, **batch
