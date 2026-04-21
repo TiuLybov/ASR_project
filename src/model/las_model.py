@@ -147,6 +147,7 @@ class Speller(nn.Module):
 
         # build mask for encoder padding
         max_enc_len = encoder_out.size(1)
+        encoder_lengths = encoder_lengths.to(device)
         encoder_mask = (
             torch.arange(max_enc_len, device=device).unsqueeze(0)
             >= encoder_lengths.unsqueeze(1)
